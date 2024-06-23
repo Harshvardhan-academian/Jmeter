@@ -21,11 +21,13 @@ jobs:
       - name: JMeter Test
         uses: QAInsights/PerfAction@v5.6.2
         with:
-          test-plan-path: "PetStore_.jmx"
+          test-plan-path: PetStore_.jmx
           args: ""
 
       - name: Generate HTML Report
         run: |
+          ls $HOME
+          ls $HOME/apache-jmeter/bin
           $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
 
       - name: Upload Results
