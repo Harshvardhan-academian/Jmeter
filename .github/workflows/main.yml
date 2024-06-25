@@ -32,7 +32,7 @@ jobs:
       - name: Run JMeter Test with CSV file
         run: |
           mkdir -p reports/html
-          $HOME/apache-jmeter/bin/jmeter -n -t your_test_plan.jmx -l result.jtl -Jcsvfile=${csvfile}
+          $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl -Jcsvfile=${csvfile}
           $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
 
       - name: Upload JMeter Results
