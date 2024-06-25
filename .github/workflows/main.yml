@@ -35,7 +35,7 @@ jobs:
       #   run: $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
 
       - name: Generate HTML Report
-        run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl -Jcsvfile=$GITHUB_WORKSPACE/data/Product_1.csv
+        run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl -g result.jtl -o ./reports/html/-Jcsvfile=$GITHUB_WORKSPACE/data/Product_1.csv
 
 
       - name: Upload Results
