@@ -28,11 +28,15 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports/html
 
-      - name: JMeter Test
-        run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl
+      # - name: JMeter Test
+      #   run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl
+
+      # - name: Generate HTML Report
+      #   run: $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
 
       - name: Generate HTML Report
-        run: $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
+        run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl -e result.jtl -o ./reports/html/-Jcsvfile=$GITHUB_WORKSPACE/data/Product_1.csv
+
 
       - name: Upload Results
         uses: actions/upload-artifact@v3
