@@ -1,10 +1,12 @@
-name: CI
+name: JMeter Performance Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -13,9 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-
-    
+        uses: actions/checkout@v2
 
       - name: Install Apache JMeter
         run: |
@@ -25,25 +25,24 @@ jobs:
           rm apache-jmeter-5.4.1.tgz
           chmod +x $HOME/apache-jmeter/bin/jmeter
 
-      - name: Create reports directory
-        run: mkdir -p reports/html
+      - name: Set up environment variables
+        run: |
+          echo "csvfile=$GITHUB_WORKSPACE/Product_1.csv" >> $GITHUB_ENV
 
-      - name: JMeter Test
-        run: $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl
+      - name: Run JMeter Test with CSV file
+        run: |
+          mkdir -p reports/html
+          $HOME/apache-jmeter/bin/jmeter -n -t PetStore_.jmx -l result.jtl -Jcsvfile=${csvfile}
+          $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
 
-      - name: Generate HTML Report
-        run: $HOME/apache-jmeter/bin/jmeter -g result.jtl -o ./reports/html/
-
-      - name: Upload Results
-        uses: actions/upload-artifact@v3
+      - name: Upload JMeter Results
+        uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
           path: result.jtl
-          if-no-files-found: error
 
       - name: Upload HTML Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: jmeter-html-reports
           path: reports/html
-          if-no-files-found: error
